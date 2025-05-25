@@ -1,0 +1,17 @@
+api-auth-guidelines -(This document outlines the authentication standards and practices for this project with external APIs.)
+
+commenting-guidlines.md -(This rule defines the standards for commenting code within this project.)
+
+essential-hook-guidlines.mdc -(This rule explains how to access common resources and data management instances within this project, analogous to "hooks" in some frameworks.)
+
+logging-guidelines.mdc -(This rule outlines the standards and practices for logging within this project.)
+
+new-features-guidlines.mdc -(This rule provides guidance on how to implement new features or functionalities within this project.)
+
+project-strucutre-guidlines.mdc -(This rule describes the standard directory structure and the intended purpose of each module within this project.)
+
+styling-guidelines.mdc -(This rule defines the preferred code style for this project.)
+
+tech-stack.mdc -(This rule provides an overview of the core technologies, libraries, and frameworks used in this project. Understanding the tech stack is essential for generating correct and compatible code.)
+
+
