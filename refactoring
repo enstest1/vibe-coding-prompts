@@ -1,0 +1,1 @@
+Keep my EXACT logic and functionality. Please take all my files and refactor them into modular files following strict separation of concerns add a centralized logger utility using winston that adds info/warning/debug/error logs when appropriate to track flow of the logic. Make the logger intake 1 parameter which is the module/file the log takes place in.
