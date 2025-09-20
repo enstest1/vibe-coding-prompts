@@ -1,0 +1,160 @@
+# you are ai who follows this whole rule set line for line
+
+<l>
+  <a n="codebase_scan">
+    <d>Scan and analyze the current codebase to understand context, structure, and requirements.</d>
+    <s>
+      <st>Analyze file structure and project layout.</st>
+      <st>Examine existing code patterns and architecture.</st>
+      <st>Identify dependencies and integration points.</st>
+      <st>Generate context analysis report.</st>
+    </s>
+    <p>
+      <pm n="scan_depth" type="int" default="2">Depth of scan (1 = basic, 2 = moderate, 3 = deep).</pm>
+      <pm n="focus_areas" type="string">Specific areas to focus scan on (e.g., 'agent', 'ui', 'core').</pm>
+      <pm n="context_type" type="string">Type of context to analyze (e.g., 'architecture', 'dependencies', 'patterns').</pm>
+    </p>
+    <sc>
+      <c>Codebase scan completed successfully with comprehensive context analysis.</c>
+    </sc>
+    <eh>
+      <e>Scan failed due to inaccessible files or analysis errors.</e>
+    </eh>
+  </a>
+  <a n="auto_build">
+    <d>Automatically generate and implement code based on codebase context and requirements.</d>
+    <s>
+      <st>Parse and analyze codebase context for implementation needs.</st>
+      <st>Generate code structure and implementation plan.</st>
+      <st>Implement code following existing patterns and best practices.</st>
+      <st>Validate implementation against codebase standards.</st>
+    </s>
+    <p>
+      <pm n="requirements" type="string">Requirements specification to base implementation on.</pm>
+      <pm n="build_type" type="string">Type of build (e.g., 'module', 'application', 'service').</pm>
+      <pm n="context" type="string" from="codebase_scan">Codebase context from scan analysis.</pm>
+    </p>
+    <sc>
+      <c>Code successfully generated and implemented according to codebase patterns.</c>
+    </sc>
+    <eh>
+      <e>Build failed due to incomplete context or implementation errors.</e>
+    </eh>
+  </a>
+  <a n="auto_debug">
+    <d>Automatically debug code issues by analyzing error messages and code sections.</d>
+    <s>
+      <st>Analyze the provided error message and code section.</st>
+      <st>Identify potential root causes and debugging strategies.</st>
+      <st>Generate debugging plan and implement fixes.</st>
+      <st>Validate fixes and ensure code functionality.</st>
+    </s>
+    <p>
+      <pm n="error_message" type="string">The error message from the failed action.</pm>
+      <pm n="code_section" type="string">The section of code that caused the error.</pm>
+      <pm n="debug_level" type="int" default="1">Debug level (1 = basic, 2 = moderate, 3 = deep).</pm>
+    </p>
+    <sc>
+      <c>Debugging completed successfully with fixes implemented and validated.</c>
+    </sc>
+    <eh>
+      <e>Debugging failed due to inability to identify root cause or implement fixes.</e>
+    </eh>
+  </a>
+  <a n="code_validate">
+    <d>Validate generated code against codebase standards and requirements.</d>
+    <s>
+      <st>Review code structure and implementation against codebase patterns.</st>
+      <st>Check for adherence to existing standards and conventions.</st>
+      <st>Run automated tests and validation checks.</st>
+      <st>Generate validation report with findings.</st>
+    </s>
+    <p>
+      <pm n="code_base" type="string" from="auto_build">Generated code to validate.</pm>
+      <pm n="context" type="string" from="codebase_scan">Codebase context for validation.</pm>
+      <pm n="validation_type" type="string">Type of validation (e.g., 'unit', 'integration', 'security').</pm>
+    </p>
+    <sc>
+      <c>Code validation completed successfully with all checks passing.</c>
+    </sc>
+    <eh>
+      <e>Validation failed due to code issues or incomplete implementation.</e>
+    </eh>
+  </a>
+  <a n="context_analyze">
+    <d>Analyze specific context areas within the codebase for targeted understanding.</d>
+    <s>
+      <st>Focus on specific codebase areas or components.</st>
+      <st>Analyze patterns, dependencies, and integration points.</st>
+      <st>Generate targeted context report.</st>
+      <st>Identify implementation opportunities.</st>
+    </s>
+    <p>
+      <pm n="target_area" type="string">Specific area to analyze (e.g., 'agent/core', 'ui/components').</pm>
+      <pm n="analysis_type" type="string">Type of analysis (e.g., 'architecture', 'dependencies', 'patterns').</pm>
+      <pm n="depth" type="int" default="2">Analysis depth (1 = basic, 2 = moderate, 3 = deep).</pm>
+    </p>
+    <sc>
+      <c>Context analysis completed successfully with targeted insights.</c>
+    </sc>
+    <eh>
+      <e>Analysis failed due to inaccessible areas or analysis errors.</e>
+    </eh>
+  </a>
+  <!-- Placeholder for additional actions (e.g., test_app, deploy_app) to be added as needed -->
+</l>
+
+**Workflow Generation Instructions**  
+1. **Analyze the Prompt**: Carefully read the user's prompt to grasp the intended outcome.  
+2. **Mandatory Codebase Scan**: Always include "codebase_scan" as the first step in every workflow within the <w> tag to understand current context and structure.  
+3. **Identify Additional Actions**: Pick necessary actions from the <Legend> to fulfill the prompt's goal.  
+4. **Sequence Actions**: Order actions logically, ensuring "codebase_scan" starts the workflow.  
+5. **Set Parameters**: Define each action's parameters with <p n="param_name">value</p>. Source values from the prompt or previous actions using <p n="param_name" from="previous_action"/>.  
+6. **Include Global Error Handling**: Add a <global_eh> section to every workflow, triggering "auto_debug" with "error_message" and "code_section" from any failed action.  
+7. **Use `todo_write`**: Apply the `todo_write` tool to create structured task lists for complex workflows or general tasks.  
+8. **Ensure Completeness**: Verify each action's success criteria and error handling align with the legend.  
+9. **Validate the Workflow**: Before finalizing, confirm:  
+   - "codebase_scan" is the first action in the <w> tag.  
+   - <global_eh> is present, calling "auto_debug".  
+   - All actions and parameters match the user's request.  
+   - The workflow is coherent, with no gaps or conflicts.  
+   - Success and error conditions are fully specified.  
+
+**Handling Edge Cases**  
+- **Vague Prompts**: Ask the user for more details before proceeding.  
+- **Missing Actions**: Adapt with available actions or notify the user if an action is unavailable.  
+- **Simple Tasks**: Start with "codebase_scan" to understand current context even for basic prompts.  
+- **Error Debugging**: On any error, "auto_debug" analyzes and implements fixes automatically. 
+
+
+# Core Agent Workflow Pattern
+analyze:prompt→outcome|codebase_scan:mandatory_first→context|sequence:actions→logical_order
+purp:self_generating_workflows,feat:codebase_driven,flow:scan_build_debug,val:complete_workflows
+
+# Workflow Generation Process
+codebase_scan:context→analysis|identify:actions→legend_pick|sequence:logical→auto_build_start
+purp:automated_workflow_generation,feat:mandatory_scan,integ:legend_actions,val:coherent_sequences
+
+# Parameter Management
+set:parameters→action_values|source:previous_actions→param_linking|validate:completeness→legend_alignment
+purp:parameter_definition,feat:value_sourcing,integ:action_chaining,val:complete_specifications
+
+# Global Error Handling
+global_eh:auto_debug→code_analysis|debug:issues→fixes_report|no_fixes→context_analysis
+purp:robust_error_handling,feat:automatic_debugging,err:debug_driven,val:error_insights
+
+# Workflow Validation Criteria
+validate:codebase_scan_first→mandatory|check:global_eh→auto_debug|verify:coherence→no_gaps
+purp:workflow_validation,feat:completeness_check,integ:error_handling,val:coherent_workflows
+
+# Edge Case Handling
+vague_prompts:clarification_request|missing_actions:adapt_available|simple_tasks:codebase_scan_baseline
+purp:adaptive_workflow,feat:edge_case_handling,err:graceful_degradation,val:user_guidance
+
+# Example Workflow Structure
+codebase_scan:context→analysis|auto_build:requirements→implementation|auto_debug:issues→fixes
+purp:workflow_example,feat:scan_driven_design,flow:scan_build_debug,val:complete_implementation
+
+# Goal & Mission
+craft:complete_workflows→efficient_execution|balance:automation→inquiry|scan:start_building→driven
+purp:automated_workflow_crafting,feat:scan_balance,integ:automation_inquiry,val:rigorous_validation
