@@ -1,0 +1,105 @@
+You are a senior DX writer and staff engineer. Create an exhaustive, AI-optimized README.md for this repository, designed so another AI agent (e.g., Cursor) can understand and extend the code with zero outside context.
+
+## SCOPE
+- Cover THIS repo (and subpackages/workspaces if present). If monorepo, document each package.
+- Use only facts you can verify from the codebase. If unsure, mark a bold **TODO:** with a precise question.
+
+## OUTPUT FORMAT
+Write a single Markdown file (README.md) with this exact top-level structure:
+
+1. Title & One-line Value Prop
+2. Table of Contents (deep links)
+3. System Overview (what it does, why it exists)
+4. Architecture at a Glance
+   - High-level diagram (Mermaid)
+   - Data flow (Mermaid sequence if useful)
+   - Runtime components/services
+5. Repo Map (Authoritative File Tree)
+   - Generate with paths (max depth 6). Group large vendor dirs (e.g., node_modules) as `…`.
+   - For each top-level dir/file: 1-line purpose.
+6. Quickstart
+   - Prereqs, setup, env vars, secrets, one-shot bootstrap script
+   - Dev commands, build, run, test, format, lint
+7. Configuration
+   - All config files and keys (with defaults)
+   - Environment variables table: NAME | Required | Default | Description | Example
+8. APIs & Contracts
+   - Public API endpoints (REST/HTTP/Worker routes): method, path, auth, request/response JSON schemas (Zod/TS), error codes
+   - Message contracts, events, queues (if any)
+   - Browser/runtime API usage (e.g., chrome.bookmarks) with minimal examples
+9. Domain Models & Types
+   - TypeScript interfaces and Zod schemas that represent core entities
+   - Constraints/invariants
+10. Core Flows (Step-by-step)
+   - For each critical use case (e.g., “Scan & Classify Bookmarks”, “Undo Move”, “Rate Limiting”):
+     - Sequence diagram (Mermaid)
+     - Pseudocode (language-agnostic)
+     - Key files and functions with inline links
+11. Key Modules (Deep Dives)
+   - For each module:
+     - Purpose, inputs/outputs, public surface
+     - How it works internally (bullet points)
+     - Minimal code examples (≤ 30 lines each) with ellipses for boilerplate
+12. Storage & Data
+   - What is stored where (chrome.storage, IndexedDB/Dexie, KV/DO)
+   - Schemas, indexes, retention, migrations
+13. Security & Privacy
+   - Threat model summary
+   - AuthNZ (e.g., CSRF + ephemeral JWT), scopes, rate limiting
+   - Data minimization, redaction rules
+14. Logging & Observability
+   - Structured log format and rotation policy
+   - Where logs go; how to grep common incidents
+15. Testing Strategy
+   - Test types, how to run, fixtures/mocks
+   - Critical example tests with pass criteria
+16. Performance & Limits
+   - Batch sizes, TTLs, quotas; big-O hotspots
+   - Tuning knobs and safe ranges
+17. Troubleshooting Playbook
+   - Symptom → Cause → Fix tables
+   - Common errors and exact remediation steps
+18. Maintenance & Upgrades
+   - How to add a feature safely (checklist)
+   - Dependency update policy; breaking changes
+19. Roadmap & TODOs
+   - Shortlist of next steps with owner hints
+20. Glossary
+   - Project-specific terms and acronyms with short definitions
+21. Appendix
+   - Full file tree (collapsed details)
+   - License, credits
+
+## RIGOR RULES
+- **No hand-waving.** Prefer code-backed facts. Quote exact function names/paths.
+- **Cite the code** with clickable relative links (`./path/to/file.ts#L123`) if line anchors exist; otherwise just file path.
+- **Examples must run** or include clear placeholders (e.g., `<YOUR-RELAY.DOMAIN>`).
+- All JSON, curl, and code blocks are valid and minimal.
+- All diagrams are Mermaid fenced blocks.
+- Keep paragraphs short; prefer bullet lists and tables.
+
+## MANDATORY CONTENT FOR THIS PROJECT (tailor to what exists here)
+- Chrome MV3: permissions, side_panel, background/service worker message map, alarms, host_permissions.
+- Local caches: TTLs, ring buffers, storage limits (5MB), error prioritization on rotation.
+- PWA: Dexie schema, embeddings batch size (≤50), UMAP usage, Readability extraction, Smart Folders.
+- Relay: CSRF flow, JWT claims, Durable Object rate limiting with KV fallback, OpenRouter proxy rules, content length cap.
+- Type & schema section: Include TS interfaces + Zod for Bmk, Rule, ClassifyRequest, RelayChatRequest, LinkCheck, etc.
+- State diagrams for: Categorize & File, Dead-Link Weekly Job, Token & Classify, Galaxy Map interactions.
+
+## REPOSITORY INSPECTION STEPS (do these before writing)
+1) Enumerate workspaces/packages if a monorepo (e.g., extension/, pwa/, relay/). If present, document each.
+2) Generate a file tree (max depth 6) excluding heavy/irrelevant dirs (node_modules, dist, .git, .cache). Show `…` for elided parts.
+3) Parse key config: package.json scripts, manifest.json, wrangler.toml, tsconfig, vite config, env.sample files, Dexie schema definitions.
+4) Scan for Zod schemas and TS interfaces in `lib/types.ts`, `schemas.ts`, etc.
+5) Identify entrypoints: service worker, side panel bootstrap, PWA main.tsx, Worker index.ts.
+6) Identify critical flows and the exact functions implementing them.
+7) Identify logging utilities and their retention/rotation logic.
+8) Verify all claims against code; where missing, insert **TODOs** that are specific and easy to fill.
+
+## STYLE
+- Use professional, concise technical English.
+- Prefer tables and bullets over prose.
+- Make it skimmable by both AI and humans.
+
+## DELIVERABLE
+- Output ONLY the complete README.md content. No preambles, no follow-ups.
